@@ -2,10 +2,11 @@ import Head from 'next/head';
 import { Fragment } from 'react';
 import { auth } from 'firebase';
 import { useAuth } from '../lib/auth';
+import { Button } from "@chakra-ui/react"
 
 const Home = () => {
   const auth = useAuth();
-  auth.createFakeUser()
+  // auth.createFakeUser()
 
   return (
     <div className="container">
@@ -31,6 +32,8 @@ const Home = () => {
 
         )}
 
+        <br/>
+        <Button bg="brand.blue">Chakra button</Button>
       </main>
 
       <footer>
