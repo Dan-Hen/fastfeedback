@@ -1,9 +1,11 @@
 import Head from 'next/head';
+import { Fragment } from 'react';
 import { auth } from 'firebase';
 import { useAuth } from '../lib/auth';
 
 const Home = () => {
   const auth = useAuth();
+  auth.createFakeUser()
 
   return (
     <div className="container">
@@ -18,11 +20,17 @@ const Home = () => {
         <p className="description">
           Current user: <code>{auth?.user ? auth.user.email : 'None'}</code>
         </p>
+
         {auth?.user ? (
           <button onClick={(e) => auth.signout()}>Sign Out</button>
         ) : (
-          <button onClick={(e) => auth.signinWithGithub()}>Sign In</button>
+          <Fragment>
+            <button onClick={(e) => auth.signinWithGithub()}>Sign In with Github</button>
+            <button onClick={(e) => auth.signinWithEmailAndPassword()}>Sign In with Email </button>
+          </Fragment>
+
         )}
+
       </main>
 
       <footer>
