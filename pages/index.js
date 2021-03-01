@@ -2,7 +2,17 @@ import Head from 'next/head';
 import { Fragment } from 'react';
 import { auth } from 'firebase';
 import { useAuth } from '../lib/auth';
-import { Button } from "@chakra-ui/react"
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  FormHelperText,
+  FormErrorMessage,
+  Box,
+  CloseButton,
+  Button,
+  Text
+} from '@chakra-ui/react'
 
 const Home = () => {
   const auth = useAuth();
@@ -33,7 +43,43 @@ const Home = () => {
         )}
 
         <br/>
-        <Button bg="brand.blue">Chakra button</Button>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="space-between"
+          backgroundColor="whiteAlpha.500"
+          boxShadow="-webkit-box-shadow: -5px -2px 18px 1px rgba(0,0,0,0.38); -moz-box-shadow: -5px -2px 18px 1px rgba(0,0,0,0.38); box-shadow: -5px -2px 18px 1px rgba(0,0,0,0.38);"
+          opacity={1}
+          borderRadius="20px"
+        >
+          <Box m="30px">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              mb="50px"
+            >
+              <Text>Authentification</Text>
+              <CloseButton size="md" />
+            </Box>
+            <FormControl mb="30px">
+              <FormLabel>Email</FormLabel>
+              <Input placeholder="Adress@example.com" />
+              <FormErrorMessage>Error message</FormErrorMessage>
+            </FormControl>
+            <FormControl mb="50px">
+              <FormLabel>Password</FormLabel>
+              <Input placeholder="Choose a password" />
+              <FormErrorMessage>Error message</FormErrorMessage>
+              <FormHelperText>Add your email adress</FormHelperText>
+            </FormControl>
+            <Box display="flex" alignItems="center" flexDirection="column">
+              <Button variant="solid" size="md">
+                Submit
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       </main>
 
       <footer>

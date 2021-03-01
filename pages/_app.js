@@ -1,18 +1,9 @@
 import { ProvideAuth } from '../lib/auth';
-import { ChakraProvider, extendTheme } from "@chakra-ui/react"
-
-const theme = extendTheme({
-  colors: {
-    brand: {
-      red: "red",
-      blue: "blue",
-    },
-  },
-})
+import { ChakraProvider } from '@chakra-ui/react'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider>
       <ProvideAuth>
         <Component {...pageProps} />
       </ProvideAuth>
