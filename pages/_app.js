@@ -5,11 +5,17 @@ const theme = extendTheme({
     components: {
       Button: {
         baseStyle: {
-          color: "white", // Normally, it is "semibold"
+          color: "white",
           margin: "10px",
           bg: "#8E98FA",
           background: "#FAB79B",
           backgroundColor: "#FAB79B",
+          _hover: {
+            color: "#FAB79B",
+            bg: "#8E98FA",
+            background: "black",
+            backgroundColor: "black",
+          }
         },
       },
     },

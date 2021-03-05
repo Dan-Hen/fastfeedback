@@ -11,7 +11,8 @@ const Home = () => {
   // auth.createFakeUser()
 
   return (
-    <div className="container">
+    <div
+      className="container">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -21,7 +22,7 @@ const Home = () => {
         <h1 className="title">Fast Feedback</h1>
 
         <p className="description">
-          Current user: <code>{auth?.user ? auth.user.email : 'None'}</code>
+          Current user: <span>{auth?.user ? auth.user.email : 'None'}</span>
         </p>
 
         {auth?.user ? (
@@ -40,16 +41,6 @@ const Home = () => {
 
         )}
       </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by <img src="/vercel.svg" alt="Vercel Logo" />
-        </a>
-      </footer>
 
       <style jsx>{`
         .container {
@@ -119,15 +110,6 @@ const Home = () => {
         .description {
           line-height: 1.5;
           font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
         }
 
         .grid {
