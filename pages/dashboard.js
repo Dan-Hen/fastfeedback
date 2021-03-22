@@ -5,10 +5,9 @@ import {
   Link,
   Avatar,
   Text,
-  Button,
-  Icon
 } from '@chakra-ui/react'
 import { SunIcon } from '@chakra-ui/icons'
+import AddSiteModal from '../components/AddSiteModal';
 
 const App = () => (
   <ChakraProvider resetCSS>
@@ -69,9 +68,7 @@ const App = () => (
               Get feedback on your site instantly !
             </Text>
             <Text>Start today, then grow with us 🌱</Text>
-            <Button variant="solid" size="md" m={5}>
-              Upgrade
-            </Button>
+            <AddSiteModal />
           </Box>
         </Box>
       </Box>
