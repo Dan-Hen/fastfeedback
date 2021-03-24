@@ -8,11 +8,8 @@ import {
   Text,
   Box,
   Modal,
-  ModalBody,
-  ModalCloseButton,
   ModalContent,
-  ModalHeader,
-  ModalOverlay,
+  useToast,
   useDisclosure
 } from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
@@ -23,6 +20,7 @@ console.log(firebase)
 const firestore = firebase.firestore()
 
 const AddSiteModal = () => {
+  const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit, watch, errors } = useForm();
 
@@ -54,64 +52,68 @@ const AddSiteModal = () => {
       >
         Add site
       </Button>
-
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
         <ModalContent
           as="form"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}>
+        <FormControl
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="space-between"
+          isRequired
+          backgroundColor="#f9f9f9"
+          border={20}
+          p={10}
         >
-          <ModalHeader>Add site</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="space-between"
-              isRequired
-              backgroundColor="#f9f9f9"
-              border={20}
-              p={10}
-            >
-              <Text ml={20} mr={20}>
-                Add Site
-              </Text>
-              <FormErrorMessage>Error message</FormErrorMessage>
-              <Box mt={10} ml={20} mr={20}>
-                <FormLabel>Name</FormLabel>
-                <Input
-                  placeholder="Site name"
-                  name="siteName"
-                  ref={register({ required: true })}
-                />
-              </Box>
-              <Box mt={10} ml={20} mr={20}>
-                <FormLabel>link</FormLabel>
-                <Input
-                  placeholder="https://greatstuff.com"
-                  name="siteLink"
-                  ref={register({ required: true })}
-                />
-              </Box>
-              <Box
-                display="flex"
-                flexDirection="row-reverse"
-                justifyContent="flex-start"
-                pt={20}
-                pb={30}
-                ml={20}
-                mr={20}
-              >
-                <Button variant="solid" size="md" ml={5} onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button variant="solid" size="md" type="submit">
-                  Submit
-                </Button>
-              </Box>
-            </FormControl>
-          </ModalBody>
+          <Text ml={20} mr={20}>
+            Add Site
+          </Text>
+          <FormErrorMessage>Error message</FormErrorMessage>
+          <Box mt={10} ml={20} mr={20}>
+            <FormLabel>Name</FormLabel>
+            <Input
+              placeholder="Site name"
+              name="siteName"
+              ref={register({ required: true })}
+            />
+          </Box>
+          <Box mt={10} ml={20} mr={20}>
+            <FormLabel>link</FormLabel>
+            <Input
+              placeholder="https://greatstuff.com"
+              name="siteLink"
+              ref={register({ required: true })}
+            />
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="row-reverse"
+            justifyContent="flex-start"
+            pt={20}
+            pb={30}
+            ml={20}
+            mr={20}
+          >
+            <Button variant="solid" size="md" ml={5} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              variant="solid"
+              size="md"
+              type="submit" onClick={() =>
+              toast({
+                title: "Site added.",
+                description: "Good job!",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+              })
+            }>
+              Submit
+            </Button>
+          </Box>
+        </FormControl>
         </ModalContent>
       </Modal>
     </>
