@@ -1,21 +1,10 @@
-import React from 'react'
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  FormErrorMessage,
-  Text,
-  Box,
-  Modal,
-  ModalContent,
-  useToast,
-  useDisclosure
-} from '@chakra-ui/react';
-import { useForm } from "react-hook-form";
+import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Modal, ModalContent, Text, useDisclosure, useToast } from '@chakra-ui/react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useAuth } from '../lib/auth';
+import { CreateSite } from '../lib/db';
 // import { useState } from 'react';
 import firebase from '../lib/firebase';
-import { CreateSite } from '../lib/db'
 
 console.log(firebase)
 const firestore = firebase.firestore()
@@ -24,12 +13,13 @@ const AddSiteModal = () => {
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit, watch, errors } = useForm();
+  const auth = useAuth()
 
   const onSubmit = (data) => {
     try {
       console.log("data :", data)
 
-      CreateSite(data)
+      CreateSite(data, auth.user.uid )
       // createSite(siteName,siteLink);
 
     } catch (error) {
