@@ -19,8 +19,8 @@ import { useForm } from "react-hook-form";
 // import { useState } from 'react';
 import firebase from '../lib/firebase';
 
+console.log(firebase)
 const firestore = firebase.firestore()
-console.log(firestore)
 
 const AddSiteModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,9 +37,10 @@ const AddSiteModal = () => {
         name: data.siteName
       });
       // createSite(siteName,siteLink);
+      console.log(res)
 
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
