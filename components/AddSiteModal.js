@@ -15,6 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 // import { useState } from 'react';
 import firebase from '../lib/firebase';
+import { CreateSite } from '../lib/db'
 
 console.log(firebase)
 const firestore = firebase.firestore()
@@ -24,18 +25,12 @@ const AddSiteModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit, watch, errors } = useForm();
 
-  const onSubmit = async (data) => {
-    //create site
+  const onSubmit = (data) => {
     try {
       console.log("data :", data)
 
-      // créer une entrée dans la base de données en passant les valeurs de siteName et siteLink
-      const res = await firestore.collection('sites').add({
-        link: data.siteLink,
-        name: data.siteName
-      });
+      CreateSite(data)
       // createSite(siteName,siteLink);
-      console.log(res)
 
     } catch (error) {
       console.error(error)
