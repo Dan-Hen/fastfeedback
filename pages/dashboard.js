@@ -1,15 +1,13 @@
-import React from 'react'
-import {
-  ChakraProvider,
-  Box,
-  Link,
-  Avatar,
-  Text,
-} from '@chakra-ui/react'
-import { SunIcon } from '@chakra-ui/icons'
+import { SunIcon } from '@chakra-ui/icons';
+import { Avatar, Box, ChakraProvider, Link, Text } from '@chakra-ui/react';
+import React from 'react';
 import AddSiteModal from '../components/AddSiteModal';
+import { useAuth } from '../lib/auth';
 
-const App = () => (
+const App = () => {
+const auth = useAuth()
+
+  return (
   <ChakraProvider resetCSS>
     <Box backgroundColor="blackAlpha.100">
       <Box
@@ -74,5 +72,7 @@ const App = () => (
       </Box>
     </Box>
   </ChakraProvider>
-)
+  );
+};
+
 export default App
