@@ -11,7 +11,7 @@ export default async (req, res) => {
 
   //récuperer les sites
   const snapshot = await db.collection('sites')
-    .where('ownerId', '==', userId)
+    //.where('ownerID', '==', userId)
     .get();
 
   //afficher les sites que l'utilisateur à accès

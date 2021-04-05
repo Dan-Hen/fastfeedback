@@ -3,9 +3,15 @@ import { Avatar, Box, ChakraProvider, Link, Text } from '@chakra-ui/react';
 import React from 'react';
 import AddSiteModal from '../components/AddSiteModal';
 import { useAuth } from '../lib/auth';
+import useSWR from 'swr';
+import fetcher from '../utils/fetcher'
 
 const App = () => {
-const auth = useAuth()
+  const auth = useAuth();
+  const { data, ...rest } = useSWR('/api/sites', fetcher);
+
+  const sites = data?.sites;
+  console.log(sites)
 
   return (
   <ChakraProvider resetCSS>
@@ -52,6 +58,16 @@ const auth = useAuth()
               Sites
             </Text>
           </Box>
+          {
+            sites?.map((site) => {
+              return (
+                <div>
+                  {site.name}
+                  {site.link}
+                </div>
+              )
+            })
+          }
           <Box
             display="flex"
             flexDirection="column"
