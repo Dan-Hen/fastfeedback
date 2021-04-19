@@ -6,7 +6,8 @@ import {
   ChakraProvider,
   Container,
   Button,
-  Flex
+  Flex,
+  Text
 } from '@chakra-ui/react';
 import { CheckIcon } from '@chakra-ui/icons'
 import ModalSignIn from '../components/ModalSignIn'
@@ -40,10 +41,19 @@ const Dashboard = () => {
     <DashboardShell>
       {
         sites.map((site) =>
-          <div>
+          <Flex
+            bg="gray.300"
+            mb={'5px'}
+            p={5}
+            borderRadius={5}
+          >
+            <Text mr={5} >
             {site.name}
+            </Text>
+            <span>
             {site.link}
-          </div>
+            </span>
+          </Flex >
         )
       }
     </DashboardShell>
