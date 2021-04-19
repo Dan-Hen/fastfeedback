@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useAuth } from '../lib/auth';
+import React from 'react'
 import {
+  Container,
   FormControl,
   FormLabel,
   Input,
-  FormHelperText,
+  Center,
   FormErrorMessage,
-  Box,
-  CloseButton,
   Button,
-  Text
-} from '@chakra-ui/react'
+  useToast
+} from '@chakra-ui/react';
+import { CheckIcon } from '@chakra-ui/icons'
 
 const AuthForm = (props) => {
   const {
@@ -20,92 +21,119 @@ const AuthForm = (props) => {
   const [email, setEmail] = useState(undefined);
   const [password, setPassword] = useState(undefined);
   const [confirmPassword, setConfirmPassword] = useState(undefined);
-  const [loginError, setLoginError] = useState(undefined);
+  const [logInError, setLogInError] = useState(undefined);
   const auth = useAuth();
+  const toast = useToast({
+    position: 'bottom-right',
+    isClosable: true,
+  });
 
-  const onSubmit = async (event) => {
-    console.log('clicked')
+  // let [isSigningUp, setIsSigningUp] = useState(false);
+
+  const onSubmit = () => {
+    // create user
     try {
       if (!isSignIn) {
         if (password === confirmPassword) {
           // Create account
-          const result = await auth.createUser(email, password);
-          console.log('result', result);
-          setLoginError(undefined);
+          auth.createUser(email, password);
+          setLogInError(undefined);
+          toast({
+            title: "Success !",
+            description: "We've created your account, you are now logged in.",
+            status: "success",
+            duration: 5000,
+          });
           closeModal();
+
         } else {
-          setLoginError(new Error('Les deux mots de passe ne sont pas identiques'));
+          setLogInError(new Error('Les deux mots de passe ne sont pas identiques'));
         }
 
       } else {
         // Login existing user
-        const result = await auth.signinWithEmailPassword(email, password);
-        console.log('result', result);
-        setLoginError(undefined);
+        auth.signinWithEmailPassword(email, password);
+        setLogInError(undefined);
         closeModal();
       }
     } catch (e) {
-      setLoginError(e);
+      setLogInError(e);
+      toast({
+        title: "Error",
+        description: e.message,
+        status: "success",
+        duration: 5000,
+      });
     }
-  };
+  }
 
   return (
-      <Box m="30px">
-        <FormControl mb="20px">
-          <FormLabel>Email</FormLabel>
+    <div className="auth-form">
+      <Center mb="25px" mt="25px">
+        <FormControl isRequired>
+          <FormLabel>email</FormLabel>
           <Input
-            placeholder="Adress@example.com"
-            onChange={(event) => setEmail(event.target.value)}
-
+            placeholder="Enter your email"
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
           />
           <FormErrorMessage>Error message</FormErrorMessage>
         </FormControl>
-        <FormControl mb="20px">
-          <FormLabel>Password</FormLabel>
+      </Center>
+
+      <Center mb="25px" mt="25px">
+        <FormControl isRequired mb="25px" mt="25px">
+          <FormLabel>password</FormLabel>
           <Input
-            type={'password'}
-            placeholder="Choose a password"
-            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Choose your password"
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
           />
           <FormErrorMessage>Error message</FormErrorMessage>
         </FormControl>
+      </Center>
 
-        {
-          !isSignIn && (
-          <Box mb="20px">
-          <FormLabel>Confirm password</FormLabel>
-          <Input
-            type={'password'}
-            placeholder="Write again your password "
-            onChange={(event) => setConfirmPassword(event.target.value)}
-          />
-            <FormErrorMessage>Error message</FormErrorMessage>
-        </Box>
-          )
-        }
+      {
+        !isSignIn && (
+          <Center mb="25px" mt="25px">
+            <FormControl isRequired mb="25px" mt="25px">
+              <FormLabel>confirm password</FormLabel>
+              <Input
+                placeholder="Confirm your password"
+                onChange={(event) => {
+                  setConfirmPassword(event.target.value);
+                }}
+              />
+              <FormErrorMessage>Error message</FormErrorMessage>
+            </FormControl>
+          </Center>
+        )
+      }
 
-        {
-          loginError && (
-            <div>{loginError?.message}</div>
-          )
-        }
+      {
+        logInError && (
+          <div>{logInError?.message}</div>
+        )
+      }
 
-        <Box display="flex" alignItems="center" flexDirection="column">
-          <Button
-            variant="solid"
-            size="md"
-            onClick={onSubmit}
-          >
-            {
-              isSignIn ? (
-                <span>Sign In</span>
-              ) : (
-                <span>Sign Up</span>
-              )
-            }
-          </Button>
-        </Box>
-      </Box>
+      <Center mb="25px" mt="25px">
+        <Button
+          variant="solid"
+          size="md"
+          colorScheme="purple"
+          display="flex"
+          rightIcon={<CheckIcon />}
+          flexDirection="row"
+          justifyContent="flex-start"
+          boxShadow={10}
+          onClick={onSubmit}
+        >
+          Submit
+        </Button>
+      </Center>
+    </div>
   );
 };
 

@@ -1,20 +1,17 @@
 import db from '../../lib/firebase-admin';
 
 export default async (req, res) => {
-
-  const sites = [];
-  //obtenir id utilisateurs
-  console.log(typeof req.cookies.user)
+  // console.log(req.cookies.user);
   const user = req.cookies.user;
   const parsedUser = JSON.parse(user);
-  const userId = parsedUser.id;
+  const userId = parsedUser.userId;
+  console.log(userId);
 
-  //récuperer les sites
   const snapshot = await db.collection('sites')
-    //.where('ownerID', '==', userId)
+    .where('owner', '==', userId)
     .get();
 
-  //afficher les sites que l'utilisateur à accès
+  const sites = [];
 
   snapshot.forEach((doc) => {
     sites.push({ id: doc.id, ...doc.data() });

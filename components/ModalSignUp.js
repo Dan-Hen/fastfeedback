@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import AuthForm from './AuthForm';
 
 /**
@@ -9,7 +9,12 @@ const ModalSignUp = () => {
 
   return (
     <>
-      <Button onClick={onOpen}>Sign up</Button>
+      <Button
+        onClick={onOpen}
+        colorScheme="purple"
+      >
+        Sign up
+      </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

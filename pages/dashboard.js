@@ -1,94 +1,53 @@
-import { SunIcon } from '@chakra-ui/icons';
-import { Avatar, Box, ChakraProvider, Link, Text } from '@chakra-ui/react';
-import React from 'react';
-import AddSiteModal from '../components/AddSiteModal';
+import Head from 'next/head';
+import { Fragment, useState } from 'react';
 import { useAuth } from '../lib/auth';
+import React from 'react'
+import {
+  ChakraProvider,
+  Container,
+  Button,
+  Flex
+} from '@chakra-ui/react';
+import { CheckIcon } from '@chakra-ui/icons'
+import ModalSignIn from '../components/ModalSignIn'
+import ModalSignUp from '../components/ModalSignUp'
+import EmptyState from '../components/EmptyState';
+import DashboardShell from '../components/DashboardShell';
 import useSWR from 'swr';
-import fetcher from '../utils/fetcher'
+import fetcher from '../utils/fetcher';
 
-const App = () => {
+const Dashboard = () => {
   const auth = useAuth();
   const { data, ...rest } = useSWR('/api/sites', fetcher);
 
-  const sites = data?.sites;
-  console.log(sites)
+  const sites = data?.sites
+  // const sitesNames = sites.map((site) => site.name)
 
+  console.log("sites:", sites)
+
+  if (!auth.user) {
+    return "You can't access dashboard if you're not logged in";
+  }
+
+  if (!sites) {
+    return (
+      <DashboardShell>
+        <EmptyState />
+      </DashboardShell>
+    );
+  }
   return (
-  <ChakraProvider resetCSS>
-    <Box backgroundColor="blackAlpha.100">
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        flexDirection="row"
-        backgroundColor="white"
-        width="100%"
-      >
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          width="200px"
-        >
-          <SunIcon
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            ml={5}
-          />
-          <Link display="flex" alignItems="center">
-            Feedback
-          </Link>
-          <Link display="flex" alignItems="center">
-            Sites
-          </Link>
-        </Box>
-        <Box display="flex" alignItems="center">
-          <Link m={5}>Account</Link>
-          <Avatar m={5} />
-        </Box>
-      </Box>
-      <Box p="50px">
-        <Box m="30px">
-          <Box display="block" mb="50px">
-            <Text ml={0} pl={0}>
-              Sites /
-            </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              Sites
-            </Text>
-          </Box>
-          {
-            sites?.map((site) => {
-              return (
-                <div>
-                  {site.name}
-                  {site.link}
-                </div>
-              )
-            })
-          }
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            p="50px"
-            backgroundColor="white"
-            borderRadius="10px"
-            opacity={1}
-          >
-            <Text fontWeight="bold" fontSize="lg">
-              Get feedback on your site instantly !
-            </Text>
-            <Text>Start today, then grow with us 🌱</Text>
-            <AddSiteModal />
-          </Box>
-        </Box>
-      </Box>
-    </Box>
-  </ChakraProvider>
+    <DashboardShell>
+      {
+        sites.map((site) =>
+          <div>
+            {site.name}
+            {site.link}
+          </div>
+        )
+      }
+    </DashboardShell>
   );
 };
 
-export default App
+export default Dashboard;
