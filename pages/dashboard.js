@@ -1,34 +1,24 @@
-import Head from 'next/head';
-import { Fragment, useState } from 'react';
+import { Flex, Text } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import useSWR from 'swr';
+import DashboardShell from '../components/DashboardShell';
+import EmptyState from '../components/EmptyState';
 import SearchBar from '../components/SearchBar';
 import { useAuth } from '../lib/auth';
-import React from 'react'
-import {
-  ChakraProvider,
-  Container,
-  Button,
-  Flex,
-  Text
-} from '@chakra-ui/react';
-import { CheckIcon } from '@chakra-ui/icons'
-import ModalSignIn from '../components/ModalSignIn'
-import ModalSignUp from '../components/ModalSignUp'
-import EmptyState from '../components/EmptyState';
-import DashboardShell from '../components/DashboardShell';
-import useSWR from 'swr';
 import fetcher from '../utils/fetcher';
 
 const Dashboard = () => {
   const auth = useAuth();
   const { data, ...rest } = useSWR('/api/sites', fetcher);
+  const [search, setSearch] = useState('');
 
-  const sites = data?.sites
+  const sites = data?.sites;
   // const sitesNames = sites.map((site) => site.name)
 
-  console.log("sites:", sites)
+  console.log('sites:', sites);
 
   if (!auth.user) {
-    return "You can't access dashboard if you're not logged in";
+    return 'You can\'t access dashboard if you\'re not logged in';
   }
 
   if (!sites) {
@@ -38,24 +28,36 @@ const Dashboard = () => {
       </DashboardShell>
     );
   }
+
+  console.log('filtered by', search);
+  const filteredSites = sites.filter((site) => {
+    console.log('site', site);
+    if ( search === '' ) {
+      return true
+    }
+    return site.name === search;
+  });
+
   return (
     <DashboardShell>
-      <SearchBar />
+      <SearchBar
+        onSearchInputChange={(search) => setSearch(search)}
+      />
       {
-        sites.map((site) =>
+        filteredSites.map((site) =>
           <Flex
             bg="gray.300"
             mb={'5px'}
             p={5}
             borderRadius={5}
           >
-            <Text mr={5} >
-            {site.name}
+            <Text mr={5}>
+              {site.name}
             </Text>
             <span>
             {site.link}
             </span>
-          </Flex >
+          </Flex>,
         )
       }
     </DashboardShell>

@@ -6,7 +6,8 @@ import {
 } from '@chakra-ui/react'
 import { SearchIcon, TimeIcon } from '@chakra-ui/icons'
 
-const SearchBar = () => {
+const SearchBar = (props) => {
+  const { onSearchInputChange } = props;
   const [search, setSearch] = useState('');
 
   return (
@@ -16,7 +17,8 @@ const SearchBar = () => {
         value={search}
         onChange={(event) => {
           setSearch(event.target.value);
-          console.log(event.target.value)
+          onSearchInputChange(event.target.value);
+//           console.log(event.target.value);
         }}
       />
       <IconButton
