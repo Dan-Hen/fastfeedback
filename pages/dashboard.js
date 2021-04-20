@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { Fragment, useState } from 'react';
+import SearchBar from '../components/SearchBar';
 import { useAuth } from '../lib/auth';
 import React from 'react'
 import {
@@ -39,6 +40,7 @@ const Dashboard = () => {
   }
   return (
     <DashboardShell>
+      <SearchBar />
       {
         sites.map((site) =>
           <Flex
