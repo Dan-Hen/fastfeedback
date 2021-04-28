@@ -32,10 +32,11 @@ const Dashboard = () => {
   console.log('filtered by', search);
   const filteredSites = sites.filter((site) => {
     console.log('site', site);
+    // affiche la liste des sites par default quand la recherche n'est pas utilisée
     if ( search === '' ) {
       return true
     }
-    return site.name === search;
+    return site.name.toLowerCase() === search.toLowerCase();
   });
 
   return (
