@@ -32,13 +32,17 @@ const Dashboard = () => {
   console.log('filtered by', search);
   const filteredSites = sites.filter((site) => {
     console.log('site', site);
+    const isSiteNameMatch = site.name.toLowerCase().includes(search.toLowerCase());
+    const isSiteLinkMatch = site.link.toLowerCase().includes(search.toLowerCase());
+
     // affiche la liste des sites par default quand la recherche n'est pas utilisée
     if ( search === '' ) {
       return true
     }
     // Je prends mon site.name, je lui applique lowercase
     // includes permet de comparé un substring a la recherche qui a un lowercase appliqué
-    return site.name.toLowerCase().includes(search.toLowerCase());
+    return isSiteNameMatch || isSiteLinkMatch;
+    // name = a link = b     (a) || (b) === search
   });
 
   return (
