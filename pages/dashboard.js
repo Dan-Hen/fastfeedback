@@ -36,7 +36,9 @@ const Dashboard = () => {
     if ( search === '' ) {
       return true
     }
-    return site.name.toLowerCase() === search.toLowerCase();
+    // Je prends mon site.name, je lui applique lowercase
+    // includes permet de comparé un substring a la recherche qui a un lowercase appliqué
+    return site.name.toLowerCase().includes(search.toLowerCase());
   });
 
   return (
